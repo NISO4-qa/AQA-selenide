@@ -2,6 +2,7 @@ import com.codeborne.selenide.SelenideElement;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
@@ -77,7 +78,7 @@ public class CardOrderTest {
         open("http://localhost:9999");
         SelenideElement form = $(".form");
         form.$("[data-test-id=name] input").setValue("Валентин");
-        form.$("[data-test-id=phone] input").setValue("+79991234567");
+        form.$("[data-test-id=phone] input").setValue("+799901234567");
         form.$("[data-test-id=agreement]").click();
         form.$(".button__text").click();
         $("[data-test-id='phone'].input_invalid .input__sub").shouldHave(exactText("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678."));
@@ -93,5 +94,26 @@ public class CardOrderTest {
         form.$("[data-test-id=agreement]").click();
         form.$(".button__text").click();
         $("[data-test-id='phone'].input_invalid .input__sub").shouldHave(exactText("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678."));
+    }
+
+    @Test
+    void shouldTestEmptyPhone() {
+        open("http://localhost:9999");
+        SelenideElement form = $(".form");
+        form.$("[data-test-id=name] input").setValue("Валентин");
+        form.$("[data-test-id=phone] input").setValue("");
+        form.$("[data-test-id=agreement]").click();
+        form.$(".button__text").click();
+        $("[data-test-id='phone'].input_invalid .input__sub").shouldHave(exactText("Поле обязательно для заполнения"));
+    }
+
+    @Test
+    void shouldTestDontClickAgreement() {
+        open("http://localhost:9999");
+        SelenideElement form = $(".form");
+        form.$("[data-test-id=name] input").setValue("Валентин");
+        form.$("[data-test-id=phone] input").setValue("+79990123456");
+        form.$(".button__text").click();
+        $("[data-test-id=agreement].input_invalid .checkbox__text").shouldBe(visible);
     }
 }
