@@ -23,7 +23,7 @@ dependencies {
     // при реализации проекте с использованием Selenium вместо библиотеки com.codeborne:selenide подключаются
     // org.seleniumhq.selenium:selenium-java и io.github.bonigarcia:webdrivermanager
     testImplementation 'com.codeborne:selenide:6.17.2'
-    testImplementation org.gradle.wrapper.GradleWrapperMain
+    org.gradle.wrapper.GradleWrapperMain
 }
 
 test {
